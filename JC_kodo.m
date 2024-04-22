@@ -1,7 +1,7 @@
 clearvars
 close all
 
-d=5; %dimension of the annihilation and creation operator
+d=10; %dimension of the annihilation and creation operator
 hbar = 1;
 wa = 1; %Atomic frequency
 wf = 1; %Field frequency
@@ -20,21 +20,44 @@ gs = [0;1]; %Ground state
 es = [1;0]; %Excited state
 
 %coherent state
-alpha = 0.6;
+alpha = 2;
 coh = 0;
 
 for i=0:d-1
     coh = coh+exp(-(alpha^2)/2)*alpha^i/sqrt(prod(1:i))*If(:,i+1);
 end
 
-g_coh = coh'*(a'*a'*a*a)*coh/(coh'*(a'*a)*coh);
-
+nomin_coh = coh'*(a'*a'*a*a)*coh;
+denom_coh = coh'*(a'*a)*coh;
+g_coh = nomin_coh/denom_coh^2;
 %Thermal state
-nth = 0.2;
-the = 0;
+nth = 0.5;
+Rho_th = 0;
+
+
 for i=0:d-1
-    the = the+(nth/(1+nth))^i*If(:,i+1)*If(:,i+1)';
+    Rho_th = Rho_th+(nth^i/(1+nth)^(i+1))*If(:,i+1)*If(:,i+1)';
 end
+
+for i=0:d-1
+    Pn_coh(i+1) = (If(:,i+1)'*coh)^2;
+    Pn_th(i+1) = If(:,i+1)'*Rho_th*If(:,i+1);
+end
+
+g_th = trace(Rho_th*a'*a'*a*a)/trace(Rho_th*a'*a)^2;
+
+subplot(1,2,1)
+bar(0:d-1, Pn_coh)
+title(sprintf('Coherent state : g2(0)=%f',g_coh))
+xlabel('n')
+ylabel('Photon number distribution')
+% text(5,0.18,sprintf('g2(0)=%f',g_coh),FontSize=20)
+subplot(1,2,2)
+bar(0:d-1, Pn_th, 'r')
+title(sprintf('Thermal state : g2(0)=%f',g_th))
+xlabel('n')
+ylabel('Photon number distribution')
+% g_the = Tr;
 
 
 H_atom = 0.5*hbar * wa * kron(sig_z,If);
