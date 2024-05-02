@@ -34,7 +34,6 @@ g_coh = nomin_coh/denom_coh^2;
 nth = 0.5;
 Rho_th = 0;
 
-
 for i=0:d-1
     Rho_th = Rho_th+(nth^i/(1+nth)^(i+1))*If(:,i+1)*If(:,i+1)';
 end
