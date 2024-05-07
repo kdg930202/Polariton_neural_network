@@ -40,7 +40,15 @@ Rho_th = 0;
 
 for i=0:d-1
     Rho_th = Rho_th+(nth^i/(1+nth)^(i+1))*I_a(:,i+1)*I_a(:,i+1)';
+    % Rho_th = Rho_th + (nth/(1+nth))^i * I_a(:,i+1)*I_a(:,i+1)';
 end
+
+for i=0:d-1
+    Pn_th(i+1) = I_a(:,i+1)'*Rho_th*I_a(:,i+1);
+end
+
+figure()
+bar(0:d-1, Pn_th, 'r')
 
 rho = kron(Rho_th, Rho_b);
 % trace(rho*b1'*b1)
@@ -64,14 +72,15 @@ for t=1:length(T)
                                + 1i*P/2*(2*b2'*rho1*b2 - rho1*b2*b2' - b2*b2'*rho1);
     rho2 = rho + 0.5*dt*K2;
     K3 = -1i*(H*rho2 - rho2*H)+ 1i*gamma/2*(2*b1*rho2*b1' - rho2*b1'*b1 - b1'*b1*rho2) ...
-                             + 1i*gamma/2*(2*b2*rho2*b2' - rho2*b2'*b2 - b2'*b2*rho2) ...
-                             + 1i*P/2*(2*b1'*rho2*b1 - rho2*b1*b1' - b1*b1'*rho2) ...
-                             + 1i*P/2*(2*b2'*rho2*b2 - rho2*b2*b2' - b2*b2'*rho2);
+                              + 1i*gamma/2*(2*b2*rho2*b2' - rho2*b2'*b2 - b2'*b2*rho2) ...
+                              + 1i*P/2*(2*b1'*rho2*b1 - rho2*b1*b1' - b1*b1'*rho2) ...
+                              + 1i*P/2*(2*b2'*rho2*b2 - rho2*b2*b2' - b2*b2'*rho2);
     rho3 = rho + dt*K3;
     K4 = -1i*(H*rho3 - rho3*H) + 1i*gamma/2*(2*b1*rho3*b1' - rho3*b1'*b1 - b1'*b1*rho3) ...
-                             + 1i*gamma/2*(2*b2*rho3*b2' - rho3*b2'*b2 - b2'*b2*rho3) ...
-                             + 1i*P/2*(2*b1'*rho3*b1 - rho3*b1*b1' - b1*b1'*rho3) ...
-                             + 1i*P/2*(2*b2'*rho3*b2 - rho3*b2*b2' - b2*b2'*rho3);
+                               + 1i*gamma/2*(2*b2*rho3*b2' - rho3*b2'*b2 - b2'*b2*rho3) ...
+                               + 1i*P/2*(2*b1'*rho3*b1 - rho3*b1*b1' - b1*b1'*rho3) ...
+                               + 1i*P/2*(2*b2'*rho3*b2 - rho3*b2*b2' - b2*b2'*rho3);
+
     rho = rho + 1/6*dt*(K1+2*K2+2*K3+K4);
 end
 
