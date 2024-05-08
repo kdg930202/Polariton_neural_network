@@ -7,7 +7,7 @@ d = 4; %dimension of the annihilation and creation operator
 J = 1;
 W = rand(1,2);
 gamma = 1;
-P = 0.2;
+P = 0.2; %Incohernet pumping
 swtich_H_I = 1;
 
 dt = 0.1;
