@@ -14,9 +14,9 @@ wl = 10;
 swtich_H_I = 1;
 
 dt = 0.1;
-T = 0:dt:150;
+T = 0:dt:500;
 
-Inten = 1;
+Inten = 20;
 E = linspace(0,Inten, length(T));
 
 a = diag(sqrt(1:d-1),1); %annihilation operator
@@ -37,11 +37,12 @@ end
 
 rho = Rho_th;
 %%
-tau = 20;
+
 for t=1:length(T)
 
 
     full(t) = trace(rho*a);
+    g2(t) = trace(rho*a'*a'*a*a)/trace(rho*a'*a);
 
 
     K1 = -1i*(wc - wl)*(a'*a*rho - rho*a'*a) - 1i*X*(a'*a'*a*a*rho - rho*a'*a'*a*a) ...
@@ -71,9 +72,4 @@ end
 
 
 figure()
-plot(T,abs(full))
-% hold on
-% % plot(T,abs(n2))
-% 
-% figure()
-% plot(T,abs(n_a))
+plot(E,abs(full))
