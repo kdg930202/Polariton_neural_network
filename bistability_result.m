@@ -1,7 +1,8 @@
 clearvars
+close all
 
 % Ef = 20
-E = linspace(0,20,21);
+E = linspace(0,200,21);
 
 
 for i=1:length(E)

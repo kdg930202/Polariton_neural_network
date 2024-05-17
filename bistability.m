@@ -4,7 +4,7 @@
 
 function result = bistability(E)
 
-d = 8; %dimension of the annihilation and creation operator
+d = 4; %dimension of the annihilation and creation operator
 J = 1;
 X = 0.5;
 K = 1;
@@ -14,10 +14,8 @@ wl = 10;
 swtich_H_I = 1;
 
 dt = 0.01;
-T = 0:dt:100;
+T = 0:dt:200;
 
-Inten = 20;
-% E = linspace(0,Inten, length(T));
 
 a = diag(sqrt(1:d-1),1); %annihilation operator
 I_a = eye(d);
@@ -37,7 +35,7 @@ for t=1:length(T)
 
 
     full(t) = trace(rho*a);
-    % g2(t) = trace(rho*a'*a'*a*a)/trace(rho*a'*a);
+
 
 
     K1 = -1i*(wc - wl)*(a'*a*rho - rho*a'*a) - 1i*X*(a'*a'*a*a*rho - rho*a'*a'*a*a) ...
@@ -69,6 +67,4 @@ end
 result = full(end);
 
 end
-% figure()
-% % plot(E,abs(g2))
-% plot(E, abs(full))
+
