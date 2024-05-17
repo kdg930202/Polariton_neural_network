@@ -2,7 +2,10 @@ clearvars
 close all
 
 % Ef = 20
-E = linspace(0,200,21);
+dE = 0.5;
+Ei = 0;
+Ef = 200;
+E = Ei:dE:Ef;
 
 
 for i=1:length(E)
@@ -11,4 +14,4 @@ for i=1:length(E)
 end
 
 %%
-plot(E, ampli)
+scatter(abs(E), ampli)
