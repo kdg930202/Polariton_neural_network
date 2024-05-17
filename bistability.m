@@ -1,7 +1,8 @@
-clc;
-clearvars;
-close all
+% clc;
+% clearvars;
+% close all
 
+function result = bistability(E)
 
 d = 8; %dimension of the annihilation and creation operator
 J = 1;
@@ -13,10 +14,10 @@ wl = 10;
 swtich_H_I = 1;
 
 dt = 0.01;
-T = 0:dt:10;
+T = 0:dt:100;
 
 Inten = 20;
-E = linspace(0,Inten, length(T));
+% E = linspace(0,Inten, length(T));
 
 a = diag(sqrt(1:d-1),1); %annihilation operator
 I_a = eye(d);
@@ -40,31 +41,34 @@ for t=1:length(T)
 
 
     K1 = -1i*(wc - wl)*(a'*a*rho - rho*a'*a) - 1i*X*(a'*a'*a*a*rho - rho*a'*a'*a*a) ...
-         + (E(t)*a' - E(t)*a)*rho - rho*(E(t)*a' - E(t)*a) ...
+         + (E*a' - E*a)*rho - rho*(E*a' - E*a) ...
          + K*(2*a*rho*a' - rho*a'*a - a'*a*rho + 2*nth*(a*rho*a' - rho*a*a' - a'*a*rho + a'*rho*a));
 
     rho1 = rho + 0.5*dt*K1;
 
     K2 = -1i*(wc - wl)*(a'*a*rho1 - rho1*a'*a) - 1i*X*(a'*a'*a*a*rho1 - rho1*a'*a'*a*a) ...
-         + (E(t)*a' - E(t)*a)*rho1 - rho1*(E(t)*a' - E(t)*a) ...
+         + (E*a' - E*a)*rho1 - rho1*(E*a' - E*a) ...
          + K*(2*a*rho1*a' - rho1*a'*a - a'*a*rho1 + 2*nth*(a*rho1*a' - rho1*a*a' - a'*a*rho1 + a'*rho1*a));
 
     rho2 = rho + 0.5*dt*K2;
     
     K3 = -1i*(wc - wl)*(a'*a*rho2 - rho2*a'*a) - 1i*X*(a'*a'*a*a*rho2 - rho2*a'*a'*a*a) ...
-         + (E(t)*a' - E(t)*a)*rho2 - rho2*(E(t)*a' - E(t)*a) ...
+         + (E*a' - E*a)*rho2 - rho2*(E*a' - E*a) ...
          + K*(2*a*rho2*a' - rho2*a'*a - a'*a*rho2 + 2*nth*(a*rho2*a' - rho2*a*a' - a'*a*rho2 + a'*rho2*a));
 
     rho3 = rho + dt*K3;
 
     K4 = -1i*(wc - wl)*(a'*a*rho3 - rho3*a'*a) - 1i*X*(a'*a'*a*a*rho3 - rho3*a'*a'*a*a) ...
-         + (E(t)*a' - E(t)*a)*rho3 - rho3*(E(t)*a' - E(t)*a) ...
+         + (E*a' - E*a)*rho3 - rho3*(E*a' - E*a) ...
          + K*(2*a*rho3*a' - rho3*a'*a - a'*a*rho3 + 2*nth*(a*rho3*a' - rho3*a*a' - a'*a*rho3 + a'*rho3*a));
 
     rho = rho + 1/6*dt*(K1+2*K2+2*K3+K4);
 end
 
 
-figure()
-% plot(E,abs(g2))
-plot(E, abs(full))
+result = full(end);
+
+end
+% figure()
+% % plot(E,abs(g2))
+% plot(E, abs(full))
