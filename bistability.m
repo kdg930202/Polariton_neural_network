@@ -4,9 +4,10 @@
 
 function result = bistability(E)
 
-d = 4; %dimension of the annihilation and creation operator
+d = 25; %dimension of the annihilation and creation operator
 % J = 1;
 X = 0.5;
+% X = 0;
 K = 1;
 % P = 0.2; %Incohernet pumping
 wc = 0;
@@ -21,7 +22,7 @@ a = diag(sqrt(1:d-1),1); %annihilation operator
 I_a = eye(d);
 
 
-nth = 10;
+nth = 0;
 
 
 

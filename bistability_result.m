@@ -4,7 +4,7 @@ close all
 % Ef = 20
 dE = 0.5;
 Ei = 0;
-Ef = 200;
+Ef = 20;
 E = Ei:dE:Ef;
 
 
