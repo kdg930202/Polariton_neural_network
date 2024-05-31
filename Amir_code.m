@@ -8,7 +8,7 @@ Omega=0;
 E1=0;
 E2=1;
 
-%-----------------Operators
+%-----------------Operators%
 sigma=[0 0;1 0];
 sigma_z = sigma'*sigma - sigma*sigma';
 I_sigma=eye(2);
