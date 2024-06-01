@@ -6,7 +6,7 @@ e2 = 0.5;
 
 gamma1 = 2;
 gamma2 = 2;
-
+%%
 E = 2 / sqrt(e1 * gamma1);
 
 d=2; %dimension of the annihilation and creation operator
