@@ -2,7 +2,7 @@ clc;
 clearvars;
 close all
 
-
+%%
 d = 4; %dimension of the annihilation and creation operator
 J = 1;
 W = rand(1,2);
