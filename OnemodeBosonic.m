@@ -2,7 +2,7 @@
 clc;
 clear;
 %close all;
-%-------------------Constants
+%-------------------Constants%
 Gamma=1;
 Omega=1;
 alpha=2;
