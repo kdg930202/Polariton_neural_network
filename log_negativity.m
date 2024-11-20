@@ -95,6 +95,6 @@ V = [A, C;C', B];
 sig = det(A) + det(B) - 2*det(C);
 v_min = sqrt(sig - sqrt(sig^2 - 4*det(V)))/sqrt(2);
 
-N = -log(2*v_min); % if N is positive, the state rho is entangled.
+N = -log2(2*v_min); % if N is positive, the state rho is entangled.
 
 end
