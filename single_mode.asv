@@ -1,72 +1,71 @@
-clc;
-clearvars;
-close all
+clearvars
 
-%%%
-d = 4; %dimension of the annihilation and creation operator
+d = 6; %dimension of the annihilation and creation operator
 J = 1;
+aa = diag(sqrt(1:d-1),1); %annihilation operator
 W = rand(1,2);
+dt = 0.1;
+T = 0:dt:150;
 gamma = 1;
 P = 0.2; %Incohernet pumping
 swtich_H_I = 1;
 
-dt = 0.1;
-T = 0:dt:150;
-
-a = diag(sqrt(1:d-1),1); %annihilation operator
-I_a = eye(d);
-I_b = eye(2);
-sig_z = [1,0;0,-1];
-sig_m = [0,0;1,0];
-sig_p = [0,1;0,0];
 gs = [0;1]; %Ground state
 es = [1;0]; %Excited state
 
+sig_z = [1,0;0,-1];
+sig_m = [0,0;1,0];
+sig_p = [0,1;0,0];
 
+I_a = eye(d);
+I_b = eye(2);
 b1 = kron(sig_m, kron(I_b, I_a));
 b2 = kron(I_b, kron(sig_m, I_a));
-A = kron(I_b, kron(I_b,a));
-% a2 = kron(I_b, a);
+A = kron(I_b, kron(I_b,aa));
 
 H_R = J*(b1'*b2 + b2'*b1);
 H_I = W(1)*(A'*b1 + b1'*A) + W(2)*(A'*b2 + b2'*A );
 
+% I_a = eye(d);
+a1 = aa;
 
-% b11 = kron
+theta = 1.9605;
+s = 0.1651;
+phi = 0.5+pi/10;
+
+alpha = s*sin(phi);
+a = abs(alpha)*exp(1i*theta);
+
+% Matrix exponential : expm
+S = expm(0.5*(a'*a1*a1 - a*a1'*a1')); 
+
+
 psi = kron(gs,gs); %reservoir 1 : excited, reservoir 2 : ground
 Rho_b = psi*psi';
 
 
+n_bar = s^2 * (cos(phi))^2 ;
+% n_bar = 0.5;
 
-%psi = [0;0;0;0.1];
-
-
-%Thermal state
-nth = 0.5;
-Rho_th = 0;
-
-for i=0:d-1
-    Rho_th = Rho_th+(nth^i/(1+nth)^(i+1))*I_a(:,i+1)*I_a(:,i+1)';
-    % Rho_th = Rho_th + (nth/(1+nth))^i * I_a(:,i+1)*I_a(:,i+1)';
+for i=1:d
+    rho_th(i) = (1/(1 + n_bar)) * (n_bar/(1 + n_bar))^(i-1);
+    % Rho_th = Rho_th + rho_th * kron(I_a(:,i+1),I_a(:,i+1));
 end
 
-for i=0:d-1
-    Pn_th(i+1) = I_a(:,i+1)'*Rho_th*I_a(:,i+1);
-end
+rho_th = diag(rho_th);
+rho_sq_th = S*rho_th*conj(S);
+rho = kron(Rho_b, rho_sq_th);
+[trace(rho), trace(rho_sq_th),trace(rho*b1'*b1)]
 
-% figure()
-% bar(0:d-1, Pn_th, 'r')
+% rho_th = diag(rho_th);
+% [trace(rho_th),trace(rho_th*a1'*a1)] %should be 1 and n_bar
+% 
+% rho_sq_th = S*rho_th*S';
+% % rho_sq_th = S*rho_th*conj(S);
+% [trace(rho_sq_th),trace(rho_sq_th*a1'*a1)] %should be 1 and n_bar
 
-% rho = kron(Rho_th, Rho_b);
-rho = kron(Rho_b, Rho_th);
-trace(rho*b1'*b1)
-% trace(Rho_th) %should be 1
-% trace(Rho_th*a'*a) %should be n_th
-% trace(rho) %should be 1
-% trace()
 
-%%
-tau = 20;
+tau = 100;
 for t=1:length(T)
     % Pe(t) = kron(es, If(:,1))'*rho*kron(es, If(:,1));
     % correlation(t) = trace(rho*A'*A'*A*A)/trace(rho*A'*A)^2;
@@ -103,6 +102,4 @@ figure()
 plot(T,abs(n1))
 hold on
 % plot(T,abs(n2))
-% 
-% figure()
-% plot(T,abs(n_a))
+
