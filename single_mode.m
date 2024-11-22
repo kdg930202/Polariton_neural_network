@@ -1,4 +1,5 @@
 clearvars
+close all
 
 d = 6; %dimension of the annihilation and creation operator
 J = 1;
@@ -44,8 +45,8 @@ psi = kron(gs,gs); %reservoir 1 : excited, reservoir 2 : ground
 Rho_b = psi*psi';
 
 
-n_bar = s^2 * (cos(phi))^2 ;
-% n_bar = 0.5;
+% n_bar = s^2 * (cos(phi))^2 ;
+n_bar = 0.5;
 
 for i=1:d
     rho_th(i) = (1/(1 + n_bar)) * (n_bar/(1 + n_bar))^(i-1);
@@ -65,7 +66,7 @@ rho = kron(Rho_b, rho_sq_th);
 % [trace(rho_sq_th),trace(rho_sq_th*a1'*a1)] %should be 1 and n_bar
 
 
-tau = 10;
+tau = 100;
 for t=1:length(T)
     % Pe(t) = kron(es, If(:,1))'*rho*kron(es, If(:,1));
     % correlation(t) = trace(rho*A'*A'*A*A)/trace(rho*A'*A)^2;
@@ -84,10 +85,10 @@ for t=1:length(T)
                                + P/2*(2*b1'*rho1*b1 - rho1*b1*b1' - b1*b1'*rho1) ...
                                + P/2*(2*b2'*rho1*b2 - rho1*b2*b2' - b2*b2'*rho1);
     rho2 = rho + 0.5*dt*K2;
-    K3 = -1i*(H*rho2 - rho2*H)+ gamma/2*(2*b1*rho2*b1' - rho2*b1'*b1 - b1'*b1*rho2) ...
-                              + gamma/2*(2*b2*rho2*b2' - rho2*b2'*b2 - b2'*b2*rho2) ...
-                              + P/2*(2*b1'*rho2*b1 - rho2*b1*b1' - b1*b1'*rho2) ...
-                              + P/2*(2*b2'*rho2*b2 - rho2*b2*b2' - b2*b2'*rho2);
+    K3 = -1i*(H*rho2 - rho2*H) + gamma/2*(2*b1*rho2*b1' - rho2*b1'*b1 - b1'*b1*rho2) ...
+                               + gamma/2*(2*b2*rho2*b2' - rho2*b2'*b2 - b2'*b2*rho2) ...
+                               + P/2*(2*b1'*rho2*b1 - rho2*b1*b1' - b1*b1'*rho2) ...
+                               + P/2*(2*b2'*rho2*b2 - rho2*b2*b2' - b2*b2'*rho2);
     rho3 = rho + dt*K3;
     K4 = -1i*(H*rho3 - rho3*H) + gamma/2*(2*b1*rho3*b1' - rho3*b1'*b1 - b1'*b1*rho3) ...
                                + gamma/2*(2*b2*rho3*b2' - rho3*b2'*b2 - b2'*b2*rho3) ...
