@@ -29,7 +29,7 @@ A = kron(I_b, kron(I_b,a));
 % a2 = kron(I_b, a);
 
 H_R = J*(b1'*b2 + b2'*b1);
-H_I = W(1)*(A'*b1 + b1'*A) + W(2)*(A'*b2 + b2'*A );
+% H_I = W(1)*(A'*b1 + b1'*A) + W(2)*(A'*b2 + b2'*A );
 
 
 % b11 = kron
@@ -73,8 +73,10 @@ for t=1:length(T)
     n1(t) = trace(rho*b1'*b1);
     n2(t) = trace(rho*b2'*b2);
     n_a(t) = trace(rho*A'*A); %this should be constant when u add cascade coupling term
-
-    H = H_R + swtich_H_I * H_I.*(t>=500).*(t<500+tau);
+    
+    H_I = W(1)*(A*rho*b1' - b1'*A*rho + b1*rho*A' - rho*A'*b1) ...
+        + W(2)*(A*rho*b2' - b2'*A*rho + b2*rho*A' - rho*A'*b2);
+    H = H_R + swtich_H_I * 1i *H_I.*(t>=500).*(t<500+tau);
     K1 = -1i*(H*rho - rho*H) + gamma/2*(2*b1*rho*b1' - rho*b1'*b1 - b1'*b1*rho) ...
                              + gamma/2*(2*b2*rho*b2' - rho*b2'*b2 - b2'*b2*rho) ...
                              + P/2*(2*b1'*rho*b1 - rho*b1*b1' - b1*b1'*rho)...
