@@ -33,6 +33,7 @@ H_R = J*(b1'*b2 + b2'*b1);
 % H_I = W(1)*(A'*b1 + b1'*A) + W(2)*(A'*b2 + b2'*A );
 
 
+
 % b11 = kron
 psi = kron(gs,gs); %reservoir 1 : excited, reservoir 2 : ground
 Rho_b = psi*psi';
