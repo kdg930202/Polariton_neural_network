@@ -68,7 +68,7 @@ trace(rho*b1'*b1)
 % trace()
 
 
-tau = 20;
+tau = 100;
 time = 500;
 for t=1:length(T)
     % Pe(t) = kron(es, If(:,1))'*rho*kron(es, If(:,1));

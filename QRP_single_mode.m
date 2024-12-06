@@ -1,5 +1,7 @@
-clearvars
-close all
+% clearvars
+% close all
+
+function [ nti, ntf ] = QRP_single_mode(theta, s)
 
 d = 6; %dimension of the annihilation and creation operator
 J = 1;
@@ -33,9 +35,9 @@ H_I = W(1)*(A'*b1 + b1'*A) + W(2)*(A'*b2 + b2'*A );
 
 % I_a = eye(d);
 a1 = aa;
-
-theta = 1.9605;
-s = 0.9;
+% 
+% theta = 1.9605;
+% s = 0.9;
 phi = 0.5+pi/10;
 
 alpha = s*sin(phi);
@@ -60,7 +62,7 @@ end
 rho_th = diag(rho_th);
 rho_sq_th = S*rho_th*conj(S);
 rho = kron(Rho_b, rho_th);
-[trace(rho), trace(rho_sq_th),trace(rho*b1'*b1)]
+% [trace(rho), trace(rho_sq_th),trace(rho*b1'*b1)]
 
 % rho_th = diag(rho_th);
 % [trace(rho_th),trace(rho_th*a1'*a1)] %should be 1 and n_bar
@@ -114,13 +116,14 @@ for t=1:length(T)
     rho = rho + 1/6*dt*(K1+2*K2+2*K3+K4);
 end
 
-
-figure()
-plot(T,abs(n1))
-hold on
-axis tight
-ylim([0,0.25])
-% plot(T,abs(n2))
-
-figure()
-plot(T,abs(n_a))
+ntf = abs(n1(t));
+nti = abs(n1(t-10));
+% figure()
+% plot(T,abs(n1))
+% hold on
+% axis tight
+% ylim([0,0.25])
+% % plot(T,abs(n2))
+% 
+% figure()
+% plot(T,abs(n_a))
