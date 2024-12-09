@@ -10,9 +10,12 @@ s_b = 0.9;
 s = (s_b-s_a).*rand(num,1) + s_a;
 
 % [n1,n2] = QRP_single_mode(theta, s)
+input_s = 4;
+ns_time = zeros(num,input_s*2);
+%%
 for i=1:num
     display(i)
-    [n1,n2] = QRP_single_mode(theta(i), s(i));
-    ni(i) = n1;
-    nf(i) = n2;
+    ns_time(i,:) = QRP_single_mode2(theta(i), s(i), input_s);
+    % ni(i) = n1;
+    % nf(i) = n2;
 end
