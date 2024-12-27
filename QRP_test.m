@@ -1,6 +1,8 @@
-% clearvars
-% close all
-function ns = QRP_single_mode2(s, input_size)
+clearvars
+close all
+
+tic
+
 d = 6; %dimension of the annihilation and creation operator
 J = 1;
 aa = diag(sqrt(1:d-1),1); %annihilation operator
@@ -35,7 +37,7 @@ H_I = W(1)*(A'*b1 + b1'*A) + W(2)*(A'*b2 + b2'*A );
 a1 = aa;
 % 
 theta = 0;
-% s = 0.9;
+s = 1;
 phi = 0.5+pi/10;
 
 alpha = s*sin(phi);
@@ -117,42 +119,31 @@ end
 ntf = abs(n1(t));
 nti = abs(n1(t-10));
 
-% input_size = 4;
+input_size = 4;
 
-% ns = zeros(1,input_size*2);
-for i = 1:input_size
-    n1s(i) = abs(n1(time + 1 + 10*(i-1)));
-    n2s(i) = abs(n2(time + 1 + 10*(i-1)));
-
+ns = zeros(1,input_size*2);
+for i=1:input_size*2
+    if i < (input_size + 1)
+        ns(i) = abs(n1(t-(i-1)));
+    else
+        ns(i) = abs(n2(t-(i-1)));
+    end
 end
 
-ns = [n1s, n2s];
 
-
-% for i=1:input_size*2
-%     if i < (input_size + 1)
-%         ns(i) = abs(n1(time+1+10*(i-1)));
-%     else
-%         ns(i) = abs(n2(time+1));
-%     end
-% end
-
-
-% figure()
-% subplot(2,1,1)
-% plot(T,abs(n1))
-% hold on
-% axis tight
+figure()
+subplot(2,1,1)
+plot(T,abs(n1))
+hold on
+axis tight
 % ylim([0,0.25])
-% ylabel('n_1')
-% subplot(2,1,2)
-% plot(T,abs(n2))
-% axis tight
+ylabel('n_1')
+subplot(2,1,2)
+plot(T,abs(n2))
+axis tight
 % ylim([0,0.25])
-% ylabel('n_2')
+ylabel('n_2')
 % 
 % figure()
 % plot(T,abs(n_a))
-
-
-end
+toc
