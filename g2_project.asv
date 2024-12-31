@@ -17,7 +17,7 @@ for i = 0:d-1
 end
 
 trace(rho_coh)
-g2_coh = trace(a'*a'*a*a*rho_coh)/trace(a'*a*rho_coh)^2; %should be 2
+g2_Coh = trace(a'*a'*a*a*rho_coh)/trace(a'*a*rho_coh)^2; %should be 2
 
 %% 
 % Thermal state
@@ -34,5 +34,5 @@ g2_th = trace(a'*a'*a*a*rho_th)/trace(a'*a*rho_th)^2; %should be 1
 % rho_fock = I(:,d)*I(:,d)';
 psi_fock = (a')^p_number/sqrt(prod(1:p_number))*I(:,1);
 rho_fock = psi_fock*psi_fock';
-g2_fock = trace(a'*a'*a*a*rho_fock)/trace(a'*a*rho_fock)^2;
-g2_fock_check = (p_number - 1)/p_number;
+g2_fock = trace(a'*a'*a*a*rho_fock)/trace(a'*a*rho_fock)^3;
+g2_fock_check = (p_number - 1)/p_number^3;
