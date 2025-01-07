@@ -1,16 +1,20 @@
 function [g2_s_an, g2_s_nu] = g2_comparison(alpha, nth)
 
 p1 = 1;
-p2 = 2;
-p3 = 3;
+p2 = 1;
+p3 = 1;
 denom = sqrt(p1^2 + p2^2 + p3^2);
 p1 = p1/denom;
 p2 = p2/denom;
 p3 = p3/denom;
 % ps_sum = p1^2 + p2^2 + p3^2;
-d = 10; %dimension of the annihilation and creation operator
+p1 = p1^2;
+p2 = p2^2;
+p3 = p3^2;
+% ps_new_sum = p1 + p2 + p3; 
+d = 12; %dimension of the annihilation and creation operator
 a = diag(sqrt(1:d-1),1); %annihilation operator
-p_number = 7;
+p_number = 1;
 I = eye(d);
 % alpha = 0.1;
 
