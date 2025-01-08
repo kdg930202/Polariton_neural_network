@@ -1,16 +1,16 @@
 clearvars
 close all
 
-nth = 0:0.01:3;
-alpha = 0:0.01:3;
+theta = 0:0.1:pi;
+phi = 0:0.1:2*pi;
 
-result_an = zeros(length(nth), length(alpha));
-result_nu = zeros(length(nth), length(alpha));
+result_an = zeros(length(phi), length(theta));
+result_nu = zeros(length(phi), length(theta));
 
-for i = 1:length(nth)
-    for j = 1:length(alpha)
+for i = 1:length(phi)
+    for j = 1:length(theta)
 
-        [result_an(i,j), result_nu(i,j)] = g2_comparison(nth(i), alpha(j));
+        [result_an(i,j), result_nu(i,j)] = g2_comparison(phi(i), theta(j));
     end
 end
 
@@ -19,15 +19,15 @@ end
 figure()
 subplot(1,2,1)
 % pcolor(nth, alpha,result_an)
-pcolor(result_an)
-xlabel("nth")
-ylabel("alpha")
+pcolor(theta,phi,result_an)
+xlabel("theta")
+ylabel("phi")
 title("Analytics")
 colorbar()
 subplot(1,2,2)
 % pcolor(nth, alpha,result_nu)
-pcolor(result_nu)
+pcolor(theta,phi,result_nu)
 colorbar()
-xlabel("nth")
-ylabel("alpha")
+xlabel("theta")
+ylabel("phi")
 title("Numerics")

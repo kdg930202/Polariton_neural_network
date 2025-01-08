@@ -24,6 +24,7 @@ gs = [0;1]; %Ground state
 es = [1;0]; %Excited state
 
 
+
 b1 = kron(sig_m, kron(I_b, I_a));
 b2 = kron(I_b, kron(sig_m, I_a));
 A = kron(I_b, kron(I_b,a));

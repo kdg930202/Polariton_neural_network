@@ -1,13 +1,14 @@
 clearvars
+theta = pi;
 
 p1 = 1;
 p2 = 2;
 p3 = 3;
-denom = sqrt(p1^2 + p2^2 + p3^2);
-p1 = p1/denom;
-p2 = p2/denom;
-p3 = p3/denom;
-ps_sum = p1^2 + p2^2 + p3^2;
+% denom = sqrt(p1^2 + p2^2 + p3^2);
+% p1 = p1/denom;
+% p2 = p2/denom;
+% p3 = p3/denom;
+% ps_sum = p1^2 + p2^2 + p3^2;
 d = 10; %dimension of the annihilation and creation operator
 a = diag(sqrt(1:d-1),1); %annihilation operator
 p_number = 7;
@@ -29,7 +30,7 @@ g2_coh = trace(a'*a'*a*a*rho_coh)/trace(a'*a*rho_coh)^2; %should be 2
 
 %% 
 % Thermal state
-nth = 0.6;
+nth = 0.5;
 rho_th = 0;
 
 for i=0:d-1
