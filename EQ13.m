@@ -2,14 +2,15 @@ clearvars
 close all
 clc
 
-theta = pi/4;
-phi = pi/4;
+
 J = 1;
 dt = 0.1;
 T = 0:dt:23;
 gamma = 1;
 P = 0.2; %Incohernet pumping
 
+theta = pi/4;
+phi = pi/4;
 p1 = cos(theta)^2;
 p2 = sin(theta)^2 * cos(phi)^2;
 p3 = sin(theta)^2 * sin(phi)^2;
