@@ -4,8 +4,11 @@ clc
 
 
 J = 1;
-dt = 0.1;
-T = 0:dt:23;
+dt = 0.05;
+T = 0:dt:20;
+% t = 0:dt:T;
+time = 10;
+tau = 4;
 gamma = 1;
 P = 0.2; %Incohernet pumping
 
@@ -15,13 +18,13 @@ p1 = cos(theta)^2;
 p2 = sin(theta)^2 * cos(phi)^2;
 p3 = sin(theta)^2 * sin(phi)^2;
 
-d = 2; %dimension of the annihilation and creation operator
+d = 6; %dimension of the annihilation and creation operator
 a = diag(sqrt(1:d-1),1); %annihilation operator
 p_number = 1;
 I = eye(d);
 alpha = 1;
 
-W = rand(1,2);
+W = 10*rand(1,2);
 sig_z = [1,0;0,-1];
 sig_m = [0,0;1,0];
 sig_p = [0,1;0,0];
@@ -41,7 +44,7 @@ A = kron(I_b, kron(I_b,a));
 
 H_R = J*(b1'*b2 + b2'*b1);
 
-psi = kron(gs,es); %reservoir 1 : excited, reservoir 2 : ground
+psi = kron(gs,gs); %reservoir 1 : excited, reservoir 2 : ground
 rho_R = psi*psi';
 
 %%
@@ -90,22 +93,30 @@ for t=1:length(T)
     n_a(t) = trace(rho*A'*A); %this should be constant when u add cascade coupling term
     
     H = H_R;
-    K1 = -1i*(H*rho - rho*H) + gamma/2*(2*b1*rho*b1' - rho*b1'*b1 - b1'*b1*rho) ...
+    K1 = -1i*(H*rho - rho*H) + (W(1)*(A*rho*b1' - b1'*A*rho + b1*rho*A' - rho*A'*b1) ...
+                             + W(2)*(A*rho*b2' - b2'*A*rho + b2*rho*A' - rho*A'*b2))*(t>=time).*(t<time+tau) ...
+                             + gamma/2*(2*b1*rho*b1' - rho*b1'*b1 - b1'*b1*rho) ...
                              + gamma/2*(2*b2*rho*b2' - rho*b2'*b2 - b2'*b2*rho) ...
                              + P/2*(2*b1'*rho*b1 - rho*b1*b1' - b1*b1'*rho)...
                              + P/2*(2*b2'*rho*b2 - rho*b2*b2' - b2*b2'*rho);
     rho1 = rho + 0.5*dt*K1;
-    K2 = -1i*(H*rho1 - rho1*H) + gamma/2*(2*b1*rho1*b1' - rho1*b1'*b1 - b1'*b1*rho1) ...
+    K2 = -1i*(H*rho1 - rho1*H) + (W(1)*(A*rho1*b1' - b1'*A*rho1 + b1*rho1*A' - rho1*A'*b1) ...
+                               + W(2)*(A*rho1*b2' - b2'*A*rho1 + b2*rho1*A' - rho1*A'*b2))*(t>=time).*(t<time+tau) ...
+                               + gamma/2*(2*b1*rho1*b1' - rho1*b1'*b1 - b1'*b1*rho1) ...
                                + gamma/2*(2*b2*rho1*b2' - rho1*b2'*b2 - b2'*b2*rho1) ...
                                + P/2*(2*b1'*rho1*b1 - rho1*b1*b1' - b1*b1'*rho1) ...
                                + P/2*(2*b2'*rho1*b2 - rho1*b2*b2' - b2*b2'*rho1);
     rho2 = rho + 0.5*dt*K2;
-    K3 = -1i*(H*rho2 - rho2*H) + gamma/2*(2*b1*rho2*b1' - rho2*b1'*b1 - b1'*b1*rho2) ...
+    K3 = -1i*(H*rho2 - rho2*H) + (W(1)*(A*rho2*b1' - b1'*A*rho2 + b1*rho2*A' - rho2*A'*b1) ...
+                               + W(2)*(A*rho2*b2' - b2'*A*rho2 + b2*rho2*A' - rho2*A'*b2))*(t>=time).*(t<time+tau) ...
+                               + gamma/2*(2*b1*rho2*b1' - rho2*b1'*b1 - b1'*b1*rho2) ...
                                + gamma/2*(2*b2*rho2*b2' - rho2*b2'*b2 - b2'*b2*rho2) ...
                                + P/2*(2*b1'*rho2*b1 - rho2*b1*b1' - b1*b1'*rho2) ...
                                + P/2*(2*b2'*rho2*b2 - rho2*b2*b2' - b2*b2'*rho2);
     rho3 = rho + dt*K3;
-    K4 = -1i*(H*rho3 - rho3*H) + gamma/2*(2*b1*rho3*b1' - rho3*b1'*b1 - b1'*b1*rho3) ...
+    K4 = -1i*(H*rho3 - rho3*H) + (W(1)*(A*rho3*b1' - b1'*A*rho3 + b1*rho3*A' - rho3*A'*b1) ...
+                               + W(2)*(A*rho3*b2' - b2'*A*rho3 + b2*rho3*A' - rho3*A'*b2))*(t>=time).*(t<time+tau) ...
+                               + gamma/2*(2*b1*rho3*b1' - rho3*b1'*b1 - b1'*b1*rho3) ...
                                + gamma/2*(2*b2*rho3*b2' - rho3*b2'*b2 - b2'*b2*rho3) ...
                                + P/2*(2*b1'*rho3*b1 - rho3*b1*b1' - b1*b1'*rho3) ...
                                + P/2*(2*b2'*rho3*b2 - rho3*b2*b2' - b2*b2'*rho3);
@@ -114,8 +125,9 @@ for t=1:length(T)
 end
 
 figure()
+subplot(1,2,1)
 plot(T,abs(n1))
-figure()
+subplot(1,2,2)
 plot(T,abs(n2))
-figure()
-plot(T,abs(n_a))
+% figure()
+% plot(T,abs(n_a))

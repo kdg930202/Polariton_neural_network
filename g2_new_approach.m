@@ -83,12 +83,13 @@ rho1 = psi_fock*psi_fock';
 
 %%
 tra = [trace(rho1), trace(rho2), trace(rho3)];
-particle_n = [trace(A1*A1*rho1), trace(A2*A2*rho2), trace(A3*A3*rho3)];
+particle_n = [trace(A1'*A1*rho1), trace(A2'*A2*rho2), trace(A3'*A3*rho3)];
 fprintf('trace_rho : %.2f %.2f %.2f \n',tra)
 fprintf('particle_num: %.2f %.2f %.2f \n',particle_n)
+fprintf('n: %.2f, alpha^2: %.2f, nth: %.2f \n',p_number, alpha^2, nth)
 
-rho_s = p1*rho1 + p2*rho2 + p3*rho3;
-g2_A1 = trace(A1'*A1'*A1*A1*rho_s)/trace(A1'*A1*rho_s)^2;
-g2_A2 = trace(A2'*A2'*A2*A2*rho_s)/trace(A2'*A2*rho_s)^2;
-g2_A3 = trace(A3'*A3'*A3*A3*rho_s)/trace(A3'*A3*rho_s)^2;
+% rho_s = p1*rho1 + p2*rho2 + p3*rho3;
+% g2_A1 = trace(A1'*A1'*A1*A1*rho_s)/trace(A1'*A1*rho_s)^2;
+% g2_A2 = trace(A2'*A2'*A2*A2*rho_s)/trace(A2'*A2*rho_s)^2;
+% g2_A3 = trace(A3'*A3'*A3*A3*rho_s)/trace(A3'*A3*rho_s)^2;
 % [g2_A1, g2_A2, g2_A3]

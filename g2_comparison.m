@@ -9,6 +9,7 @@ a = diag(sqrt(1:d-1),1); %annihilation operator
 p_number = 1;
 I = eye(d);
 alpha = 1;
+nth = 0.5;
 
 %%
 % Coherent state
@@ -25,7 +26,7 @@ g2_coh = trace(a'*a'*a*a*rho_coh)/trace(a'*a*rho_coh)^2; %should be 2
 
 %% 
 % Thermal state
-nth = 0.5;
+
 rho_th = 0;
 
 for i=0:d-1
