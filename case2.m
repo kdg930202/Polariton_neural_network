@@ -2,7 +2,7 @@
 % clearvars
 function [g2_pis_1,g2_pis_2] = case2(alpha,m)
 
-d = 20; %dimension of the annihilation and creation operator
+d = 10; %dimension of the annihilation and creation operator
 aa = diag(sqrt(1:d-1),1); %annihilation operator
 theta = pi;
 
