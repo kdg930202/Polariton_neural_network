@@ -16,7 +16,7 @@ P = 0.1; %Incohernet pumping
 m = 1;
 TD = 100000000;
 
-d = 10; %dimension of the annihilation and creation operator
+d = 20; %dimension of the annihilation and creation operator
 a = diag(sqrt(1:d-1),1); %annihilation operator
 p_number = 1;
 I = eye(d);

@@ -1,16 +1,13 @@
 % clc
 % clearvars
-function [g2_pis_1,g2_pis_2] = case2(alpha,m)
+function [g2_pis_1] = case2(r,m)
 
-d = 10; %dimension of the annihilation and creation operator
+d = 50; %dimension of the annihilation and creation operator
 aa = diag(sqrt(1:d-1),1); %annihilation operator
-theta = pi;
 
 I_a = eye(d);
 a1 = aa;
-% alpha = 0.5;
-r = abs(alpha)*exp(1i*theta);
-% r = 2;
+
 
 % Matrix exponential : expm
 S = expm(0.5*(r'*a1*a1 - r*a1'*a1')); 
@@ -18,30 +15,32 @@ S = expm(0.5*(r'*a1*a1 - r*a1'*a1'));
 adm = I_a;
 % m = 0;
 for i=1:m
-    adm = a1'*adm;
+    adm = a1*adm;
 end
 vacc = I_a(:,1);
 psi_1 = adm*S*vacc;
+psi_1 = psi_1/norm(psi_1);
 
 
-psi_2 = zeros(1,length(psi_1))';
-for n = 0:d
-    if 2*n+1+m >= d
-        break
-    end
-    
-    % I_a(:,2*n+1)
-    psi_2 = psi_2 + 1/sqrt(cosh(alpha))*(-exp(1i*theta)*tanh(alpha))^n * sqrt(factorial(2*n+m))/(2^n*factorial(n)) * I_a(:,2*n+1+m);
-end
+% psi_2 = zeros(1,length(psi_1))';
+% for n = 0:d
+%     if 2*n+1+m >= d
+%         break
+%     end
+% 
+%     % I_a(:,2*n+1)
+%     psi_2 = psi_2 + 1/sqrt(cosh(alpha))*(-exp(1i*theta)*tanh(alpha))^n * sqrt(factorial(2*n+m))/(2^n*factorial(n)) * I_a(:,2*n+1+m);
+% end
 % psi_2 = 1/sqrt(cosh(alpha))*psi_2;
 
-PSI = [psi_1,psi_2];
+% PSI = [psi_1,psi_2];
 
 rho1 = psi_1*psi_1';
-rho2 = psi_2*psi_2';
+trace(rho1)
+% rho2 = psi_2*psi_2';
 
-g2_pis_1 = trace(a1'*a1'*a1*a1*rho1)/trace(a1'*a1*rho1);
-g2_pis_2 = trace(a1'*a1'*a1*a1*rho2)/trace(a1'*a1*rho2);
+g2_pis_1 = trace(a1'*a1'*a1*a1*rho1)/trace(a1'*a1*rho1)^2;
+% g2_pis_2 = trace(a1'*a1'*a1*a1*rho2)/trace(a1'*a1*rho2)^2;
 
 end
 %%
