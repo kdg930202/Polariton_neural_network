@@ -1,29 +1,65 @@
-% clearvars
+clearvars
 % close all
-% clc
+clc
 
-function [g2_m, n1_selected, n2_selected] = case2_data_gen(r)
 
+r = 0:0.1:1;
+% r = 0.7
+figure
+my_legend1 = legend();
+hold on
+
+% figure
+% my_legend2 = legend();
+% hold on
+% 
+% figure
+% my_legend3 = legend();
+% hold on
+
+for i=1:length(r)
+    i
+    [g2(i), n1, n2] = case2_da(r(i));
+    % figure(1)
+    % figure(1)
+    % subplot(1,3,1)
+    plot(n1,"LineWidth",2)
+    my_legend1.String{i} = ['r=',num2str(r(i)),''];
+    % subplot(1,3,2)
+    % plot(n2,"LineWidth",2)
+    % my_legend2.String{i} = ['r=',num2str(r(i)),''];
+    % subplot(1,3,3)
+    % figure
+    % plot(r(i),g2)
+    % hold on
+end
+% 
+function [g2_m, n1, n2] = case2_da(r)
+
+%%
+% clearvars
+trun_de = 0;
 J = 1;
 dt = 0.1;
 T = 0:dt:20;
 % t = 0:dt:T;
 time = 10;
-tau = 1.5;
+tau = 1;
 gamma = 1;
 P = 0.1; %Incohernet pumping
-% r = 0.1;
-m = 1;
+% r = 1;
+m = 0;
 TD = 100000000;
 
-d = 20; %dimension of the annihilation and creation operator
+d = 40; %dimension of the annihilation and creation operator
 a = diag(sqrt(1:d-1),1); %annihilation operator
 p_number = 1;
 I = eye(d);
 alpha = 1;
 
 
-W = 1*rand(1,2);
+% W = 1*rand(1,2);
+W = [0.4, 0.2];
 sig_z = [1,0;0,-1];
 sig_m = [0,0;1,0];
 sig_p = [0,1;0,0];
@@ -52,7 +88,7 @@ psi = kron(gs,gs); %reservoir 1 : excited, reservoir 2 : ground
 rho_R = psi*psi';
 
 
-%%
+
 S = expm(0.5*(r'*a*a - r*a'*a')); 
 vacc = zeros(length(a(:,1)),length(a(:,1)));
 vacc(1,1) = 1;
@@ -67,8 +103,11 @@ psi_m = psi_m/norm(psi_m);
 
 rho_m = psi_m*psi_m';
 g2_m = trace(a'*a'*a*a*rho_m)/trace(a'*a*rho_m)^2;
+n_m = trace(a'*a*rho_m);
+[n_m, sinh(r)^2, trace(rho_m)]
 
 
+%%
 rho = kron(rho_m, rho_R);
 
 for t=1:length(T)
@@ -83,7 +122,7 @@ for t=1:length(T)
                              + gamma/2*(2*b2*rho*b2' - rho*b2'*b2 - b2'*b2*rho) ...
                              + P/2*(2*b1'*rho*b1 - rho*b1*b1' - b1*b1'*rho)...
                              + P/2*(2*b2'*rho*b2 - rho*b2*b2' - b2*b2'*rho)...
-                             + 1/(2*TD)*(2*b1'*b1*rho*b1'*b1 - rho*b1'*b1*b1'*b1 - b1'*b1*b1'*b1*rho ...
+                             + trun_de*1/(2*TD)*(2*b1'*b1*rho*b1'*b1 - rho*b1'*b1*b1'*b1 - b1'*b1*b1'*b1*rho ...
                                        + 2*b2'*b2*rho*b2'*b2 - rho*b2'*b2*b2'*b2 - b2'*b2*b2'*b2*rho);
     rho1 = rho + 0.5*dt*K1;
     K2 = -1i*(H*rho1 - rho1*H) + (W(1)*(A*rho1*b1' - b1'*A*rho1 + b1*rho1*A' - rho1*A'*b1) ...
@@ -92,7 +131,7 @@ for t=1:length(T)
                                + gamma/2*(2*b2*rho1*b2' - rho1*b2'*b2 - b2'*b2*rho1) ...
                                + P/2*(2*b1'*rho1*b1 - rho1*b1*b1' - b1*b1'*rho1) ...
                                + P/2*(2*b2'*rho1*b2 - rho1*b2*b2' - b2*b2'*rho1)...
-                               + 1/(2*TD)*(2*b1'*b1*rho1*b1'*b1 - rho1*b1'*b1*b1'*b1 - b1'*b1*b1'*b1*rho1 ...
+                               + trun_de*1/(2*TD)*(2*b1'*b1*rho1*b1'*b1 - rho1*b1'*b1*b1'*b1 - b1'*b1*b1'*b1*rho1 ...
                                          + 2*b2'*b2*rho1*b2'*b2 - rho1*b2'*b2*b2'*b2 - b2'*b2*b2'*b2*rho1);
     rho2 = rho + 0.5*dt*K2;
     K3 = -1i*(H*rho2 - rho2*H) + (W(1)*(A*rho2*b1' - b1'*A*rho2 + b1*rho2*A' - rho2*A'*b1) ...
@@ -101,7 +140,7 @@ for t=1:length(T)
                                + gamma/2*(2*b2*rho2*b2' - rho2*b2'*b2 - b2'*b2*rho2) ...
                                + P/2*(2*b1'*rho2*b1 - rho2*b1*b1' - b1*b1'*rho2) ...
                                + P/2*(2*b2'*rho2*b2 - rho2*b2*b2' - b2*b2'*rho2)...
-                               + 1/(2*TD)*(2*b1'*b1*rho2*b1'*b1 - rho2*b1'*b1*b1'*b1 - b1'*b1*b1'*b1*rho2 ...
+                               + trun_de*1/(2*TD)*(2*b1'*b1*rho2*b1'*b1 - rho2*b1'*b1*b1'*b1 - b1'*b1*b1'*b1*rho2 ...
                                          + 2*b2'*b2*rho2*b2'*b2 - rho2*b2'*b2*b2'*b2 - b2'*b2*b2'*b2*rho2);
     rho3 = rho + dt*K3;
     K4 = -1i*(H*rho3 - rho3*H) + (W(1)*(A*rho3*b1' - b1'*A*rho3 + b1*rho3*A' - rho3*A'*b1) ...
@@ -110,7 +149,7 @@ for t=1:length(T)
                                + gamma/2*(2*b2*rho3*b2' - rho3*b2'*b2 - b2'*b2*rho3) ...
                                + P/2*(2*b1'*rho3*b1 - rho3*b1*b1' - b1*b1'*rho3) ...
                                + P/2*(2*b2'*rho3*b2 - rho3*b2*b2' - b2*b2'*rho3)...
-                               + 1/(2*TD)*(2*b1'*b1*rho3*b1'*b1 - rho3*b1'*b1*b1'*b1 - b1'*b1*b1'*b1*rho3 ...
+                               + trun_de*1/(2*TD)*(2*b1'*b1*rho3*b1'*b1 - rho3*b1'*b1*b1'*b1 - b1'*b1*b1'*b1*rho3 ...
                                          + 2*b2'*b2*rho3*b2'*b2 - rho3*b2'*b2*b2'*b2 - b2'*b2*b2'*b2*rho3);;
 
 
@@ -127,14 +166,14 @@ for i =1:length(select_points)
     n1_selected(i) = n1(find(T==select_points(i)));
     n2_selected(i) = n2(find(T==select_points(i)));
 end
-
-figure()
-subplot(1,2,1)
-plot(T,abs(n1))
-hold on
-scatter(select_points, n1_selected)
-subplot(1,2,2)
-plot(T,abs(n2))
-hold on
-scatter(select_points, n2_selected)
+% 
+% figure()
+% subplot(1,2,1)
+% plot(T,abs(n1))
+% hold on
+% scatter(select_points, n1_selected)
+% subplot(1,2,2)
+% plot(T,abs(n2))
+% hold on
+% scatter(select_points, n2_selected)
 end
