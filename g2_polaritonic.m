@@ -8,7 +8,7 @@ clear;
 %----constants
 gamma1=1;% all the parametrs are scaled in gamma1
 gamma2=0.1;
-dDel = 0.01;
+dDel = 1;
 Delta1_vector=-5:dDel:5-dDel;
 Delta2=1;
 % E1_vector=0.01:0.02:0.5;% keep it in the low pumping regime

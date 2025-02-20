@@ -32,7 +32,7 @@ for i=1:length(Delta_a_vector)
     g2_O1_4saving(i)=g2_O1;
     g2_O2_4saving(i)=g2_O2;
     rho_out_4saving(:,:,i)=rho_out;
-
+    
     %density in laser |alpha|^2
     pop_laser_4saving(i)=pop_a;
     %density in RF
@@ -41,7 +41,7 @@ for i=1:length(Delta_a_vector)
     pop_O1_4saving(i)=n_O1;
     %density of O2 out put
     pop_O2_4saving(i)=n_O2;
-
+    
     %to check if N is selected correctly
     test_N(i)=abs(alpha_num)^2-abs(alpha_ana)^2;
 end

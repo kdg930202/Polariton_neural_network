@@ -1,4 +1,4 @@
-function[g2_O1,g2_O2,rho_out,alpha_num,alpha_ana,pop_s,pop_a,n_O1,n_O2]=g2_mix(Delta_s,gamma_s,Omega_s,Delta_a,gamma_a,Omega_a,theta)
+function[O2,g2_O1,g2_O2,rho_out,alpha_num,alpha_ana,pop_s,pop_a,n_O1,n_O2]=g2_mix(Delta_s,gamma_s,Omega_s,Delta_a,gamma_a,Omega_a,theta)
 %------------RF
 b=[0 0;1 0];
 Ib=[1 0;0 1];
@@ -16,7 +16,7 @@ g2_s=trace((b'*b*b'*b-b'*b)*rhoS_s)/(trace(b'*b*rhoS_s))^2;
 %disp(g2_s);
 %disp(pop_s);
 %------------laser
-Na =12;
+Na =11;
 dima = Na + 1;
 a=spdiags(sqrt(0:Na)',1,dima,dima);
 Ia = speye(dima);
@@ -47,7 +47,7 @@ U=expm(-1i*theta*(kron(a',b)+kron(a,b')));
 
 rho_out=U*rho_in*U';
 %rho_out=rho_out/trace(rho_out);
-disp(trace(rho_out));
+% disp(trace(rho_out));
 O2=1i*sin(theta)*kron(a,Ib)+cos(theta)*kron(Ia,b);
 n_O2=trace(O2'*O2*rho_out);
 g2_O2=trace((O2'*O2'*O2*O2)*rho_out)/(trace(O2'*O2*rho_out))^2;
