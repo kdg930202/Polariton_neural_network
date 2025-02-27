@@ -1,8 +1,8 @@
 clearvars
 close all
 
-theta = 0:0.05:pi/2;
-phi = 0:0.05:pi/2;
+theta = 0:0.5:pi/2;
+phi = 0:0.5:pi/2;
 
 
 g2 = NaN(length(phi), length(theta));

@@ -1,4 +1,4 @@
-function [n_s, g2_s, n1_selected, n2_selected] = g2_EQ13(theta, phi)
+function [n_s, g2_s, n1_max] = g2_only_n1_max(phi, theta)
 % clearvars
 % close all
 % clc
@@ -30,7 +30,8 @@ alpha = 1;
 % TD = 100000000000;
 TD = 1;
 
-W = 1*rand(1,2);
+% W = 1*rand(1,2);
+W = [0.5,0.5];
 sig_z = [1,0;0,-1];
 sig_m = [0,0;1,0];
 sig_p = [0,1;0,0];
@@ -141,6 +142,7 @@ for t=1:length(T)
     rho = rho + 1/6*dt*(K1+2*K2+2*K3+K4);
 end
 
+n1_max = max(abs(n1));
 % figure()
 % subplot(1,2,1)
 % plot(T,abs(n1))
@@ -149,13 +151,13 @@ end
 % figure()
 % plot(T,abs(n_a))
 %%
-select_step = 0.25;
-select_points = time+select_step:select_step:(time+4-select_step);
-select_points = round(select_points,1);
-for i =1:length(select_points)
-    n1_selected(i) = n1(find(T==select_points(i)));
-    n2_selected(i) = n2(find(T==select_points(i)));
-end
+% select_step = 0.25;
+% select_points = time+select_step:select_step:(time+4-select_step);
+% select_points = round(select_points,1);
+% for i =1:length(select_points)
+%     n1_selected(i) = n1(find(T==select_points(i)));
+%     n2_selected(i) = n2(find(T==select_points(i)));
+% end
 
 
 %%

@@ -16,7 +16,7 @@ g2_s=trace((b'*b*b'*b-b'*b)*rhoS_s)/(trace(b'*b*rhoS_s))^2;
 %disp(g2_s);
 %disp(pop_s);
 %------------laser
-Na =11;
+Na =20;
 dima = Na + 1;
 a=spdiags(sqrt(0:Na)',1,dima,dima);
 Ia = speye(dima);

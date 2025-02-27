@@ -86,10 +86,10 @@ particle_n = [trace(a1'*a1*rho1), trace(a2'*a2*rho2), trace(a3'*a3*rho3)];
 g2_123 = [trace(a1'*a1'*a1*a1*rho1)/trace(a1'*a1*rho1)^2, ...
           trace(a2'*a2'*a2*a2*rho2)/trace(a2'*a2*rho2)^2, ...
           trace(a3'*a3'*a3*a3*rho3)/trace(a3'*a3*rho3)^2];
-fprintf('trace_rho : %.2f %.2f %.2f \n',tra)
-fprintf('particle_num: %.2f %.2f %.2f \n',particle_n)
-fprintf('n: %.2f, alpha^2: %.2f, nth: %.2f \n',p_number, alpha^2, nth)
-fprintf('g2_1: %.2f, g2_2: %.2f, g2_3: %.2f \n',g2_123)
+% fprintf('trace_rho : %.2f %.2f %.2f \n',tra)
+% fprintf('particle_num: %.2f %.2f %.2f \n',particle_n)
+% fprintf('n: %.2f, alpha^2: %.2f, nth: %.2f \n',p_number, alpha^2, nth)
+% fprintf('g2_1: %.2f, g2_2: %.2f, g2_3: %.2f \n',g2_123)
 
 
 rho_s = kron(rho1,kron(rho2,rho3));
