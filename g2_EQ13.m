@@ -1,4 +1,4 @@
-function [n_s, g2_s, n1_selected, n2_selected] = g2_EQ13(theta, phi)
+function [n_s, g2_s, n1_selected, n2_selected] = g2_EQ13(W, phi, theta)
 % clearvars
 % close all
 % clc
@@ -30,7 +30,7 @@ alpha = 1;
 % TD = 100000000000;
 TD = 1;
 
-W = 1*rand(1,2);
+% W = 1*rand(1,2);
 sig_z = [1,0;0,-1];
 sig_m = [0,0;1,0];
 sig_p = [0,1;0,0];

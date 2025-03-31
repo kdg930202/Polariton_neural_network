@@ -2,7 +2,8 @@
 % close all
 % clc
 
-function [g2_m, n1_selected, n2_selected] = case2_data_gen(r)
+% function [g2_m, n1_selected, n2_selected] = case2_data_gen(r)
+function [n_all, g2_m] = case2_data_gen(r)
 
 J = 1;
 dt = 0.1;
@@ -23,7 +24,7 @@ I = eye(d);
 alpha = 1;
 
 
-W = 1*rand(1,2);
+W = [0.5,0.5];
 sig_z = [1,0;0,-1];
 sig_m = [0,0;1,0];
 sig_p = [0,1;0,0];
@@ -67,6 +68,7 @@ psi_m = psi_m/norm(psi_m);
 
 rho_m = psi_m*psi_m';
 g2_m = trace(a'*a'*a*a*rho_m)/trace(a'*a*rho_m)^2;
+n_m = trace(a'*a*rho_m);
 
 
 rho = kron(rho_m, rho_R);
@@ -128,13 +130,15 @@ for i =1:length(select_points)
     n2_selected(i) = n2(find(T==select_points(i)));
 end
 
+n_all = [n1_selected, n2_selected];
+% 
 figure()
 subplot(1,2,1)
 plot(T,abs(n1))
 hold on
 scatter(select_points, n1_selected)
-subplot(1,2,2)
-plot(T,abs(n2))
-hold on
-scatter(select_points, n2_selected)
+% subplot(1,2,2)
+% plot(T,abs(n2))
+% hold on
+% scatter(select_points, n2_selected)
 end

@@ -4,13 +4,17 @@
 %0.5*U1*(a1^t*a1^t*a1*a1)+
 %hbar*(E1)*(a1^t+a1)+hbar*(E2)*(a2^t+a2)
 clc;
-clear;
+clearvars;
 %----constants
 gamma1=1;% all the parametrs are scaled in gamma1
+% gamma2=0.1;
 gamma2=0.1;
-dDel = 1;
-Delta1_vector=-5:dDel:5-dDel;
-Delta2=1;
+% dDel = 0.002;
+dDel = 0.5;
+Delta1_vector=-50:dDel:50-dDel;
+%%
+Delta2=1.8;
+% Delta2=10;
 % E1_vector=0.01:0.02:0.5;% keep it in the low pumping regime
 % E1 = omega_a, E2 = omega_b
 E1_vector = 0.25;
@@ -61,9 +65,13 @@ for k=1:length(E1_vector)
 end
 %saving
 save('rho_s.mat', 'rho_s')% It would be a huge file. It is 4D array. 
-save('g2_a.mat','g2_a','Delta1_vector','E1_vector')
+save('g2_a.mat','g2_a','Delta1_vector','E1_vector','n_a')
 %After running code, you can plot g2 for different value of Deta2 or E1;
 
+%%
+plot(Delta1_vector, abs(g2_a))
+xlabel('Delta_1')
+ylabel('g_2')
 % figure;
 % surf(Delta1_vector,E1_vector,(real(g2_a)));
 % shading interp;
