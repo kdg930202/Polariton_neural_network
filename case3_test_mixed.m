@@ -4,14 +4,14 @@
 %0.5*U1*(a1^t*a1^t*a1*a1)+
 %hbar*(E1)*(a1^t+a1)+hbar*(E2)*(a2^t+a2)
 clc;
-clear;
+clearvars;
 %----constants
 gamma1=1;% all the parametrs are scaled in gamma1
-% gamma2=0.1;
 gamma2=0.1;
+% gamma2=0.05;
 % dDel = 0.002;
-dDel = 0.1;
-Delta1_vector=-10:dDel:10-dDel;
+dDel = 0.05;
+Delta1_vector=-5:dDel:5-dDel;
 %%
 Delta2=1;
 % Delta2=10;
@@ -23,8 +23,8 @@ E2=0.4*exp(1i*phi);
 J=1.6;%in the strong coupling regime it should be larger than decay rate
 U=1;%
 %------
-Na1 = 7;
-Na2 = 7;
+Na1 = 5;
+Na2 = 5;
 dima1 = Na1 + 1;
 dima2 = Na2 + 1;
 dimtot=dima1*dima2;
@@ -69,7 +69,7 @@ plot(Delta1_vector, abs(g2_a))
 hold on
 plot(Delta1_vector, abs(n_a))
 xlabel('Delta_1')
-% ylabel('g2')
+ylabel('g2')
 % legend(['g2','population of the source'])
 %%
 W = [0.5,0.5];
@@ -97,7 +97,7 @@ TD = 100000000;
 
 
 
-d = 8; %dimension of the annihilation and creation operator
+d = 6; %dimension of the annihilation and creation operator
 a = diag(sqrt(1:d-1),1); %annihilation operator
 a1 = a;
 a2 = a;
