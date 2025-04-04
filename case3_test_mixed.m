@@ -10,10 +10,10 @@ gamma1=1;% all the parametrs are scaled in gamma1
 gamma2=0.1;
 % gamma2=0.05;
 % dDel = 0.002;
-dDel = 0.05;
-Delta1_vector=-5:dDel:5-dDel;
+dDel = 0.01;
+Delta1_vector = -5:dDel:5-dDel;
 %%
-Delta2=1;
+Delta2 = 1.4;
 % Delta2=10;
 % E1_vector=0.01:0.02:0.5;% keep it in the low pumping regime
 % E1 = omega_a, E2 = omega_b
@@ -23,8 +23,8 @@ E2=0.4*exp(1i*phi);
 J=1.6;%in the strong coupling regime it should be larger than decay rate
 U=1;%
 %------
-Na1 = 5;
-Na2 = 5;
+Na1 = 6;
+Na2 = 6;
 dima1 = Na1 + 1;
 dima2 = Na2 + 1;
 dimtot=dima1*dima2;
@@ -97,7 +97,7 @@ TD = 100000000;
 
 
 
-d = 6; %dimension of the annihilation and creation operator
+d = 7; %dimension of the annihilation and creation operator
 a = diag(sqrt(1:d-1),1); %annihilation operator
 a1 = a;
 a2 = a;
