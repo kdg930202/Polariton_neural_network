@@ -2,45 +2,56 @@
 close all
 
 
-m = 0:1:5;
-r = linspace(0.2,1,200);
+% m = 0:1:5;
+m=1:2:5
+r = linspace(0,1,1000);
 % r=0;
 % result_nu = zeros(length(phi), length(theta));
 n_all = cell(1,length(r));
 % n2_selected = cell(1,length(r));
 g2_all = zeros(length(m),length(r));
+nm_all = zeros(length(m),length(r));
 
 for j = 1:length(m)
     for i = 1:length(r)
         
         % [g2_m(i), n1_selected{i}, n2_selected{i}] = case2_data_gen(r(i));
         % [n_all{i}, g2_m(i)] = case2_displaced(r(i));
-        g2_m(i) = case2_displaced(m(j),r(i));
+        [g2_m(i),n_m(i)] = case2_displaced(m(j),r(i));
     end
     g2_all(j,:) = g2_m;
+    nm_all(j,:) = n_m;
 end
 
-figure(1)
-for i = 1:length(m)
-    if rem(i,2) == 0
-        i
-        plot(g2_all(i,:))
-        hold on
-    end
-end
+% figure(1)
+% for i = 1:length(m)
+%     if rem(i,2) == 0
+%         i
+%         plot(g2_all(i,:))
+%         hold on
+%     end
+% end
+% 
+% figure(2)
+% for i = 1:length(m)
+%     if rem(i,2) ~= 0
+%         plot(g2_all(i,:))
+%         hold on
+%     end
+% end
 
 figure(2)
 for i = 1:length(m)
-    if rem(i,2) ~= 0
-        plot(g2_all(i,:))
+        plot(r,g2_all(i,:))
         hold on
-    end
+        % plot(r,nm_all(i,:),'--')
+
 end
 %%
 % plot(g2_m)
 
 % function [n_all, g2_m] = case2_displaced(r)
-function g2_m = case2_displaced(m,r)
+function [g2_m, n_m] = case2_displaced(m,r)
 
 
 J = 1;
@@ -55,7 +66,7 @@ P = 0.1; %Incohernet pumping
 % m = 5;
 TD = 100000000;
 
-d = 20; %dimension of the annihilation and creation operator
+d = 50; %dimension of the annihilation and creation operator
 a = diag(sqrt(1:d-1),1); %annihilation operator
 p_number = 1;
 I = eye(d);
@@ -91,7 +102,7 @@ psi = kron(gs,gs); %reservoir 1 : excited, reservoir 2 : ground
 rho_R = psi*psi';
 
 
-%%
+
 S = expm(0.5*(r'*a*a - r*a'*a')); 
 % D = expm(r*a'-r'*a);
 vacc = zeros(length(a(:,1)),length(a(:,1)));
@@ -100,7 +111,7 @@ vacc(1,1) = 1;
 adm = I_a;
 % m = 0;
 for i=1:m
-    adm = a*adm;
+    adm = a'*adm;
 end
 % psi_m = adm*D*S*vacc;
 psi_m = adm*S*vacc;
