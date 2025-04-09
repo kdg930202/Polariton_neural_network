@@ -13,7 +13,7 @@ gamma2=0.1;
 dDel = 0.01;
 Delta1_vector = -5:dDel:5-dDel;
 %%
-Delta2 = 1.4;
+Delta2 = 1.2;
 % Delta2=10;
 % E1_vector=0.01:0.02:0.5;% keep it in the low pumping regime
 % E1 = omega_a, E2 = omega_b
