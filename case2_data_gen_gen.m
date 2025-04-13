@@ -1,8 +1,8 @@
 clearvars
 close all
 
-% r = linspace(0,1,1000);
-r=0;
+r = linspace(0,1,1000);
+% r=0;
 % result_nu = zeros(length(phi), length(theta));
 n_all = cell(1,length(r));
 % n2_selected = cell(1,length(r));
