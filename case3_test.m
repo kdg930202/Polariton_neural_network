@@ -57,7 +57,7 @@ b2 = sparse(kron(kron(Ia1, Ia2), kron(I_b,sig_m)));
 
 H_R = J*(b1'*b2 + b2'*b1);
 
-
+gs = [0;1]; %Ground state
 psi = kron(gs,gs); %reservoir 1 : excited, reservoir 2 : ground
 rho_R = sparse(psi*psi');
 
