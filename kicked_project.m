@@ -6,6 +6,7 @@ close all;
 Delta = 1;
 Omega = 1;
 gamma = 1;
+gamma_a = 0.5;
 J = 1;
 pump = 1;
 P = 0.1;
@@ -27,7 +28,6 @@ H=Delta*a'*a+Omega*(a'+a);
 
 
 
-%%
 
 %-------------------Time
 T_max = 20;
@@ -46,7 +46,7 @@ rho_s = cell(1,length(Time));
 
 
 
-%%
+
 %----------------------Dynamics
 n_s=zeros(1,Nt);
 for i=1:Nt
@@ -54,17 +54,18 @@ for i=1:Nt
     rho_s{i} = rho;
     n_s(i)=trace(a'*a*rho);
     k1=-1i*(H*rho-rho*H)*dt+...
-        dt*(0.5*gamma*(a*rho*a'-a'*a*rho+a*rho*a'-rho*a'*a));
+        dt*(0.5*gamma_a*(a*rho*a'-a'*a*rho+a*rho*a'-rho*a'*a));
     rho1=rho+0.5*k1;
     k2=-1i*(H*rho1-rho1*H)*dt+...
-        dt*(0.5*gamma*(a*rho1*a'-a'*a*rho1+a*rho1*a'-rho1*a'*a));
+        dt*(0.5*gamma_a*(a*rho1*a'-a'*a*rho1+a*rho1*a'-rho1*a'*a));
     rho=rho+k2;
 
 end
 %-------------------Ploting the result
+%%
 figure;
 % plot(Time,real(n_s),'LineWidth',1.5)
-plot(real(n_s),'LineWidth',1.5)
+plot(abs(n_s),'LineWidth',1.5)
 xlabel('Time','FontSize', 22,'FontName', 'Times New Roman')
 ylabel('$<a^\dagger a>$','Interpreter', 'latex', 'FontSize', 22,'FontName', 'Times New Roman')
 ax = gca;
@@ -77,20 +78,20 @@ ns_full = cell(1,length(Time));
 
 for i=1:length(Time)
     disp(i)
-    ns_full{i} = RC(rho_s{i}, Time, tau, which_T,a,Delta,Omega,J,pump, gamma, P, dt);
+    ns_full{i} = RC(rho_s{i}, Time, tau, which_T,a,Delta,Omega,J,pump, gamma,0, P, dt);
 end
 
 
-
-% [n1,n2,select_points,ns] = RC(rho_s{25}, Time, tau, which_T,a,Delta,Omega,J,pump, gamma, P, dt);
+% 
+% [n1,n2,select_points,ns] = RC(rho_s{25}, Time, tau, which_T,a,Delta,Omega,J,pump, gamma,gamma_a, P, dt);
 % figure()
 % plot(Time,abs(n1))
 % hold on
 % scatter(select_points,ns(1:length(ns)/2))
 
 
-% function [n1, n2, select_points, ns] = RC(rho_s,Time,tau,which_T,a,Delta,Omega,J,pump, gamma, P, dt)
-function ns = RC(rho_s,Time,tau,which_T,a,Delta,Omega,J,pump, gamma, P, dt)
+% function [n1, n2, select_points, ns] = RC(rho_s,Time,tau,which_T,a,Delta,Omega,J,pump, gamma,gamma_a, P, dt)
+function ns = RC(rho_s,Time,tau,which_T,a,Delta,Omega,J,pump, gamma, gamma_a, P, dt)
 Ia = eye(length(a));
 I_b = eye(2);
 sig_m = [0,0;1,0];
@@ -112,9 +113,10 @@ for t=1:length(Time)
     n2(t) = trace(rho*b2'*b2);
     % n_a(Time) = trace(rho*A'*A); %this should be constant when u add cascade coupling term
 
-    H = H_R;
+    H = H_R+H_s;
     K1 = -1i*(H*rho - rho*H) + pump*(W(1)*(A*rho*b1' - b1'*A*rho + b1*rho*A' - rho*A'*b1) ...
                              + W(2)*(A*rho*b2' - b2'*A*rho + b2*rho*A' - rho*A'*b2))*(Time(t)>=which_T).*(Time(t)<which_T+tau) ...
+                             + gamma_a/2*(2*A*rho*A' - A'*A*rho - rho*A'*A) ...
                              + gamma/2*(2*b1*rho*b1' - rho*b1'*b1 - b1'*b1*rho) ...
                              + gamma/2*(2*b2*rho*b2' - rho*b2'*b2 - b2'*b2*rho) ...
                              + P/2*(2*b1'*rho*b1 - rho*b1*b1' - b1*b1'*rho)...
@@ -122,6 +124,7 @@ for t=1:length(Time)
     rho1 = rho + 0.5*dt*K1;
     K2 = -1i*(H*rho1 - rho1*H) + pump*(W(1)*(A*rho1*b1' - b1'*A*rho1 + b1*rho1*A' - rho1*A'*b1) ...
                                + W(2)*(A*rho1*b2' - b2'*A*rho1 + b2*rho1*A' - rho1*A'*b2))*(Time(t)>=which_T).*(Time(t)<which_T+tau) ...
+                               + gamma_a/2*(2*A*rho1*A' - A'*A*rho1 - rho1*A'*A) ...
                                + gamma/2*(2*b1*rho1*b1' - rho1*b1'*b1 - b1'*b1*rho1) ...
                                + gamma/2*(2*b2*rho1*b2' - rho1*b2'*b2 - b2'*b2*rho1) ...
                                + P/2*(2*b1'*rho1*b1 - rho1*b1*b1' - b1*b1'*rho1) ...
@@ -129,6 +132,7 @@ for t=1:length(Time)
     rho2 = rho + 0.5*dt*K2;
     K3 = -1i*(H*rho2 - rho2*H) + pump*(W(1)*(A*rho2*b1' - b1'*A*rho2 + b1*rho2*A' - rho2*A'*b1) ...
                                + W(2)*(A*rho2*b2' - b2'*A*rho2 + b2*rho2*A' - rho2*A'*b2))*(Time(t)>=which_T).*(Time(t)<which_T+tau) ...
+                               + gamma_a/2*(2*A*rho2*A' - A'*A*rho2 - rho2*A'*A) ...
                                + gamma/2*(2*b1*rho2*b1' - rho2*b1'*b1 - b1'*b1*rho2) ...
                                + gamma/2*(2*b2*rho2*b2' - rho2*b2'*b2 - b2'*b2*rho2) ...
                                + P/2*(2*b1'*rho2*b1 - rho2*b1*b1' - b1*b1'*rho2) ...
@@ -136,6 +140,7 @@ for t=1:length(Time)
     rho3 = rho + dt*K3;
     K4 = -1i*(H*rho3 - rho3*H) + pump*(W(1)*(A*rho3*b1' - b1'*A*rho3 + b1*rho3*A' - rho3*A'*b1) ...
                                + W(2)*(A*rho3*b2' - b2'*A*rho3 + b2*rho3*A' - rho3*A'*b2))*(Time(t)>=which_T).*(Time(t)<which_T+tau) ...
+                               + gamma_a/2*(2*A*rho3*A' - A'*A*rho3 - rho3*A'*A) ...
                                + gamma/2*(2*b1*rho3*b1' - rho3*b1'*b1 - b1'*b1*rho3) ...
                                + gamma/2*(2*b2*rho3*b2' - rho3*b2'*b2 - b2'*b2*rho3) ...
                                + P/2*(2*b1'*rho3*b1 - rho3*b1*b1' - b1*b1'*rho3) ...
