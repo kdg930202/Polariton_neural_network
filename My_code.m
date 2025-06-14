@@ -1,7 +1,7 @@
 clearvars
 clc
 %%
-dim = 2;
+dim = 2;;
 Is = eye(dim);
 v1 = Is(:,1);
 v2 = Is(:,2);
