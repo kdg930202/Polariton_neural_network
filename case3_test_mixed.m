@@ -10,7 +10,7 @@ gamma1=1;% all the parametrs are scaled in gamma1
 gamma2=0.1;
 % gamma2=0.05;
 % dDel = 0.002;
-dDel = 0.01;
+dDel = 1;
 Delta1_vector = -5:dDel:5-dDel;
 %%
 Delta2 = 1.2;
@@ -76,7 +76,8 @@ W = [0.5,0.5];
 ns = cell(1,length(Delta1_vector));
 
 for i=1:length(Delta1_vector)
-    disp(i)
+    % disp('reservoir : ',i)
+    fprintf('reservoir step %d\n',i);
     ns{i} = case3_(W,rho_s(:,:,i));
 end
 
