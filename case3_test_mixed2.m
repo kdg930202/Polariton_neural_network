@@ -182,10 +182,16 @@ end
 figure(2)
 plot(T,abs(n1))
 select_step = dt;
-sel_ini = 6+select_step;
-sel_fin = 8;
+% sel_ini = 6+select_step;
+% sel_fin = 8;
+% 
+% select_points = sel_ini:select_step:sel_fin;
+% select_points = round(select_points,1);
+num_multiplexing = 2;
+% sel_ini = 6+select_step;
+% sel_fin = 8;
 
-select_points = sel_ini:select_step:sel_fin;
+select_points = time+select_step:select_step:time+select_step*num_multiplexing;
 select_points = round(select_points,1);
 for i =1:length(select_points)
     n1_selected(i) = n1(find(T==select_points(i)));
