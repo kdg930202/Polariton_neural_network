@@ -10,8 +10,8 @@ gamma1=1;% all the parametrs are scaled in gamma1
 gamma2=0.1;
 % gamma2=0.05;
 % dDel = 0.002;
-dDel = 1;
-Delta1_vector = -5:dDel:5-dDel;
+dDel = 0.02;
+Delta1_vector = -10:dDel:10-dDel;
 %%
 Delta2 = 1.2;
 % Delta2=10;
