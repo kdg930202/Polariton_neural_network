@@ -5,13 +5,15 @@
 %hbar*(E1)*(a1^t+a1)+hbar*(E2)*(a2^t+a2)
 clc;
 clearvars;
+close all;
 %----constants
 gamma1=1;% all the parametrs are scaled in gamma1
 gamma2=0.1;
 % gamma2=0.05;
 % dDel = 0.002;
-dDel = 0.02;
-Delta1_vector = -10:dDel:10-dDel;
+dDel = 0.5;
+% Delta1_vector = -1:dDel:1-dDel;
+Delta1_vector = 0;
 %%
 Delta2 = 1.2;
 % Delta2=10;
@@ -179,8 +181,7 @@ for t=1:length(T)
     rho = rho + 1/6*dt*(K1+2*K2+2*K3+K4);
 end
 
-figure(2)
-plot(T,abs(n1))
+
 select_step = dt;
 sel_ini = 6+select_step;
 sel_fin = 8;
@@ -193,5 +194,15 @@ for i =1:length(select_points)
 end
 
 ns = [abs(n1_selected), abs(n2_selected)];
+
+
+figure(2)
+plot(T,abs(n1))
+hold on
+plot([6,10],[0.0907,0.0907],'k--')
+xlabel('Time, ${t\gamma/\hbar}$','interpreter','latex', 'FontSize',20)
+ylabel('Reservoir density','FontSize',20)
+scatter(select_points,abs(n1_selected),'r')
+
 
 end
